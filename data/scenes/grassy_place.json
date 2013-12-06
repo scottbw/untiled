@@ -1,0 +1,96 @@
+{
+    "id"            : "grassy_place"
+,   "title"         : "A Very Grassy Place"    
+,   "background"    : "/assets/backgrounds/grassy_area.png"
+,   "active"        : true
+,   "border"        : 10
+,   "size"          : {"x":1200, "y":600}
+,   "stickers"      : [
+                        {
+                            "id"    : "sign"
+                         ,  "name"  : "sign"
+                         ,  "image" : "/assets/stickers/scary_cave_sign.png"
+                         ,  "x"     : 10
+                         ,  "y"     : 500
+                         ,  "size"  : {"x":100, "y":89}
+                        }
+                        ,
+                        {
+                            "id"    : "tree"
+                         ,  "name"  : "tree"
+                         ,  "image" : "/assets/stickers/another_tree.png"
+                         ,  "x"     : 100
+                         ,  "y"     : 100
+                         ,  "size"  : {"x":120, "y":260}
+                        }
+                        ,
+                        {
+                            "id"    : "tree2"
+                         ,  "name"  : "tree"
+                         ,  "image" : "/assets/stickers/another_tree.png"
+                         ,  "x"     : 420
+                         ,  "y"     : 60
+                         ,  "size"  : {"x":120, "y":260}
+                        }
+                        ,
+                        {
+                            "id"    : "tree3"
+                         ,  "name"  : "tree"
+                         ,  "image" : "/assets/stickers/another_tree.png"
+                         ,  "x"     : 640
+                         ,  "y"     : 90
+                         ,  "size"  : {"x":120, "y":260}
+                        }
+                        ,
+                                                
+                        {
+                            "id"    : "toaster"
+                         ,  "name"  : "Mr Toasty"
+                         ,  "spritesheet": {
+                                               "framerate": 4,
+                                               "images": ["/assets/stickers/toaster.png"],
+                                               "frames": {"width":75, "height":85},
+                                               "animations": { "stand" : [0], "walk" : [0]}     
+                                            }  
+                         ,  "x"     : 280
+                         ,  "y"     : 370
+                         ,  "size"  : {"x":75, "y":80}
+                         ,  "dialogue": true
+                         ,  "script": {"type":"PATH", "value":"N50S50*", "speed":10}
+                        }
+                        ,
+                        {
+                              "id"   : "tux"
+                            , "name" : "Tux"
+                            , "solid": true
+                            , "x"    : 950
+                            , "y"    : 450
+                            , "size" : {"x":56, "y":80}
+                            , "spritesheet": {
+                                               "framerate": 4,
+                                               "images": ["/assets/sprites/tux_from_linux.png"],
+                                               "frames": {"width":56, "height":80},
+                                               "animations": { "stand" : [0,2], "walk" : [3,5]}     
+                                            }  
+                            , "dialogue": false  
+                            ,  "script": {"type":"PATH", "value":"W250N50E250S50*", "speed":10}                        
+                        }                      
+                      ]
+, "triggers"        : [
+
+                        {
+                              "type" : "onEnter"
+                            , "x"    : 0
+                            , "y"    : 0
+                            , "xx"   : 30
+                            , "yy"   : 600
+                            , "active": true
+                            , "event": {
+                                          "type"  : "TRANSITION"
+                                        , "value" : "start"
+                                        , "x"     : 1100
+                                       }   
+                        }
+                        
+                      ]
+}

@@ -1,0 +1,77 @@
+{
+    "id"            : "start"
+,   "title"         : "Outside The Scary Cave"    
+,   "background"    : "/assets/backgrounds/desert.png"
+,   "active"        : true
+,   "border"        : 10
+,   "size"          : {"x":1200, "y":600}
+,   "stickers"      : [
+                        {
+                            "id"    : "sign"
+                         ,  "name"  : "sign"
+                         ,  "image" : "/assets/stickers/grassy_place_sign.png"
+                         ,  "x"     : 1100
+                         ,  "y"     : 500
+                         ,  "size"  : {"x":100, "y":89}
+                        }
+                        ,
+                        {
+                              "id"   : "cave"
+                            , "name" : "cave"
+                            , "image": "/assets/stickers/evil_cave.png"
+                            , "solid": true
+                            , "x"    : 700
+                            , "y"    : 100
+                            , "size" : {"x":405, "y":280}
+                        },
+                        
+                        {
+                              "id"   : "amy" 
+                            , "name" : "Amy"
+                            , "solid": true
+                            , "x"    : 850
+                            , "y"    : 390
+                            , "size" : {"x":56, "y":80}
+                            , "spritesheet": {
+                                               "framerate": 4,
+                                               "images": ["/assets/sprites/wilber_from_gimp_0.png"],
+                                               "frames": {"width":56, "height":80},
+                                               "animations": {"stand" : [0,2], "walk" : [3,5] }     
+                                            }
+                            , "script": {"type":"PATH", "value":"E50W50*", "speed":20}   
+                            , "dialogue": true                     
+                        },
+                        
+                        
+                        {
+                              "id"   : "gnu"
+                            , "name" : "Gnu"
+                            , "solid": true
+                            , "x"    : 250
+                            , "y"    : 400
+                            , "size" : {"x":56, "y":80}
+                            , "spritesheet": {
+                                               "framerate": 4,
+                                               "images": ["/assets/sprites/gnu_from_gnu.png"],
+                                               "frames": {"width":56, "height":80},
+                                               "animations": { "stand" : [0,2], "walk" : [3,5]}     
+                                            }  
+                            , "dialogue": true                          
+                        }
+                      ]
+, "triggers"        : [
+                        {
+                              "type" : "onEnter"
+                            , "x"    : 1100
+                            , "y"    : 0
+                            , "xx"   : 1200
+                            , "yy"   : 600
+                            , "active": true
+                            , "event": {
+                                          "type"  : "TRANSITION"
+                                        , "value" : "grassy_place"
+                                        , "x"     : 30
+                                       }   
+                        }
+                      ]
+}

@@ -1,0 +1,57 @@
+<html>
+<head>
+    
+<script src="vendor/jquery.min.js"></script>
+<script src="vendor/keyboard.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="vendor/easeljs-0.7.0.min.js"></script>
+<script src="client.js"></script>
+<script src="bubble.js"></script>
+<link href="client.css" rel="stylesheet">
+
+<script>
+
+var stage, player;
+
+function init(){
+
+    stage = new createjs.Stage("canvas");
+    player = {};
+    player.id = "sara";
+    player.speed = 40;
+    player.size = {x:56, y:80};
+    player.name = "Sara";
+    player.spritesheet = {
+       framerate: 8,
+       images: ['/assets/sprites/sara_from_opengameart.png'],
+       frames: {width:56, height:80},
+       animations: {
+          "stand" : [0,2], 
+          "walk" : [3,5] 
+       }     
+    }
+    
+    client.init(player);
+
+}
+
+</script>
+</head>
+
+<body onload="init()">
+
+<h1 id="title"></h1>
+
+<canvas id="canvas_background" width="1200px" height="600px" style="position:absolute; top:100px; left:20px; z-index:0"></canvas>
+
+
+<canvas id="canvas" width="1200px" height="600px" style="position:absolute; top:100px; left:20px; z-index:1"></canvas>
+
+<div style="position:absolute; top:100px; left:1240px" id="messages">
+<h3>Messages</h3>
+</div>
+
+<div style="position:absolute; top:700; left:20" id="options">
+</div>
+
+</body>

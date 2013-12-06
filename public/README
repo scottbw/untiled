@@ -1,0 +1,9 @@
+Untiled. A 2D multiplayer RPG-style game engine. Without tiles.
+
+To run:
+
+node game.js
+
+Open:
+
+localhost:3000

@@ -57,7 +57,7 @@
                                                "animations": { "stand" : [0,2], "walk" : [3,5]}     
                                             }  
                             , "dialogue": true    
-                            , "script":{"type":"FOLLOW", "speed":10}                      
+                            , "script":{"type":"FOLLOW", "speed":20}                      
                         }
                       ]
 , "triggers"        : [
@@ -73,6 +73,18 @@
                                         , "value" : "grassy_place"
                                         , "x"     : 30
                                        }   
+                        },
+                                                {
+                             "type":   "onBump"
+                            ,"source": "gnu"
+                            ,"target": "#ANY"
+                            ,"active": true
+                            ,"event" :{
+                                          "type" : "SAY"
+                                        , "dialogue": {"text":"Caught you!"}
+                                        , "from": "gnu"
+                                        , "to": "#TARGET"
+                                      }
                         }
                       ]
 }

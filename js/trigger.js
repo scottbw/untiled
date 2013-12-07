@@ -26,7 +26,7 @@ trigger_evaluate = function(scene, trigger){
                     }
                 }
                 if (!ignore){
-                 event_run(scene, trigger.event, bump_event.source, bump_event.target);
+                    event_run(scene, trigger.event, bump_event.source, bump_event.target);
                 }
             }   
         }

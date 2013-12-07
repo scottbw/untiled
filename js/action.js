@@ -117,9 +117,9 @@ action_execute = function(scene, actor, action){
  */
 action_get_target = function(scene, actor){
     //
-    // Look ahead one move in current facing
+    // Look ahead two moves in current facing
     //
-    var ahead = movement_get_future(actor, actor.face, actor.speed);
+    var ahead = movement_get_future(actor, actor.face, actor.speed * 2);
     return movement_check_target(scene,actor,ahead);
 }
 

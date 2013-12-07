@@ -73,7 +73,7 @@
                                                "animations": { "stand" : [0,2], "walk" : [3,5]}     
                                             }  
                             , "dialogue": false  
-                            ,  "script": {"type":"PATH", "value":"W250N50E250S50*", "speed":10}                        
+                            ,  "script": {"type":"GOTO", "target":{"x":150, "y":450}, "speed":10}                        
                         }                      
                       ]
 , "triggers"        : [

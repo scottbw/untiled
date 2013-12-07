@@ -19,7 +19,9 @@ require("./collision.js");
     if (movement.type === "FOLLOW"){
         action = movement_create_follow_action(scene, actor, movement);
     }
-    // GOTO movement type too?
+    if (movement.type === "GOTO"){
+        action = movement_create_goto_action(scene, actor, movement);
+    }
     return action;
  }
  
@@ -94,6 +96,7 @@ require("./collision.js");
         // If there is a number, e.g. "E30", decrement it and replace
         //
         if (number > 0){
+            number = number.fixed(0);
             var idx = movement.activePath.indexOf(number);
             var len = number.toString().length;
             number--;
@@ -132,6 +135,8 @@ require("./collision.js");
   * Process a FOLLOW script
   */
  movement_create_follow_action = function(scene, actor, movement){
+ 
+    if (movement.stuck > 100) return movement_create_random_action(scene, actor, movement);
 
     //
     // Create a movement script if we don't already have one, or if we are stuck
@@ -172,9 +177,41 @@ require("./collision.js");
             movement.activePath = path;  
             tries++;
         }
-        
     }
     return movement_create_path_action(scene, actor, movement);
+ }
+ 
+ /*
+  * Process a GOTO script
+  */
+ movement_create_goto_action = function(scene, actor, movement){
+    
+    //
+    // Create a movement script if we don't already have one, or if we are stuck
+    //    
+    if (!movement.activePath || movement.activePath.length === 0 || movement.stuck > 10){
+    
+        var target = movement.target;
+        
+        //
+        // Plot a route
+        //        
+        var future = null;
+        var tries = 0; // we give ourselves 10 tries at finding a workable path
+        
+        while (!future || !movement_is_valid(scene, actor, future) && tries < 10){
+            var path = movement_generate_follow_path(actor, target);
+            nextMove = path[0];
+            future = movement_get_future(actor, nextMove, path[1]);  
+            movement.activePath = path;  
+            tries++;
+        }        
+    
+    }
+    
+    return movement_create_path_action(scene, actor, movement);
+
+ 
  }
  
  /*
@@ -186,10 +223,40 @@ require("./collision.js");
     var chance = new Chance();
     var path = [];
     
-    if (actor.x > target.x) path[0] = "W" + (actor.script.speed * 10);
-    if (actor.x < target.x) path[0] = "E" + (actor.script.speed * 10);
-    if (actor.y > target.y) path[1] = "N" + (actor.script.speed * 10);
-    if (actor.y < target.y) path[1] = "S" + (actor.script.speed * 10);
+    if (actor.x > target.x){
+        var path_distance = actor.script.speed * 10;
+        var actual_distance = actor.x - target.x;
+        if (path_distance > actual_distance && actor.script.stuck < 5) path_distance = actual_distance;
+        
+        path[0] = "W" + path_distance.round();
+    }
+    if (actor.x < target.x){
+        var path_distance = actor.script.speed * 10;
+        var actual_distance = target.x - actor.x;
+        if (path_distance > actual_distance && actor.script.stuck < 5) path_distance = actual_distance;        
+        
+        path[0] = "E" + path_distance.round();
+     
+    }
+    if (actor.y > target.y){
+        var path_distance = actor.script.speed * 10;
+        var actual_distance = actor.y - target.y;
+        if (path_distance > actual_distance && actor.script.stuck < 5) path_distance = actual_distance;   
+        
+        path[1] = "N" + path_distance.round();
+        
+    }
+    if (actor.y < target.y){
+        var path_distance = actor.script.speed * 10;
+        var actual_distance = target.y - actor.y;
+        if (path_distance > actual_distance && actor.script.stuck < 5) path_distance = actual_distance; 
+             
+        path[1] = "S" + path_distance.round();
+        
+    }
+    
+    if (!path[0]) path[0] = path[1];
+    if (!path[1]) path[1] = path[0];
     
     //
     // Randomise whether we go x then y or y then x
@@ -284,3 +351,6 @@ require("./collision.js");
     if (future.y + actor.size.y > scene.size.y - scene.border.bottom) return false;
     return true;
  }
+ 
+ Number.prototype.fixed = function(n) { n = n || 3;return parseFloat(this.toFixed(n)); };
+ Number.prototype.round = function()  { return Math.round(this); };

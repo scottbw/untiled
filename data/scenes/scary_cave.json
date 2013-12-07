@@ -56,7 +56,8 @@
                                                "frames": {"width":56, "height":80},
                                                "animations": { "stand" : [0,2], "walk" : [3,5]}     
                                             }  
-                            , "dialogue": true                          
+                            , "dialogue": true    
+                            , "script":{"type":"FOLLOW", "speed":10}                      
                         }
                       ]
 , "triggers"        : [

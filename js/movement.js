@@ -17,7 +17,7 @@ require("./collision.js");
         action = movement_create_path_action(scene, actor, movement);
     }   
     if (movement.type === "FOLLOW"){
-        action = movement_create_follow_action(scene, actor, movemement);
+        action = movement_create_follow_action(scene, actor, movement);
     }
     // GOTO movement type too?
     return action;
@@ -28,7 +28,7 @@ require("./collision.js");
   */
  movement_create_random_action = function(scene, actor, movement){
  
-    if (!movement.activePath || movement.activePath.length === 0){
+    if (!movement.activePath || movement.activePath.length === 0 || movement.stuck > 10){
         var future = null;
         while (!future || !movement_is_valid(scene, actor, future)){
             var path = movement_generate_random_path(movement);
@@ -82,6 +82,11 @@ require("./collision.js");
     // if the following character is a number, we decrement it rather than remove it
     //
     if (movement_is_valid(scene, actor, future)){
+        
+        //
+        // If we were stuck, we aren't now
+        //
+        movement.stuck = 0;
     
         var number = parseInt(movement.activePath.substr(1));
         
@@ -109,26 +114,91 @@ require("./collision.js");
         return action;
     } else {
         //
-        // Don't move, but change facing
+        // Don't move, but change facing, and increment the 'stuck' counter
         //
+        if (!movement.stuck) movement.stuck = 0;
+        movement.stuck++;
         var action = {};
         action.object = actor.id;
         action.type = "FACE";
         action.value = nextMove;
         return action;
+        
     }
     
  }
  
+ /*
+  * Process a FOLLOW script
+  */
  movement_create_follow_action = function(scene, actor, movement){
+
     //
-    // Who are we following?
-    //
-    var target = movement.target_id;
+    // Create a movement script if we don't already have one, or if we are stuck
+    //    
+    if (!movement.activePath || movement.activePath.length === 0 || movement.stuck > 10){
+    
+        //
+        // Who are we following?
+        //
+        var target = movement.target_id;
+        
+        //
+        // TODO if its "no-one" then default to nearest player in the scene
+        //
+        if (!target){
+            for (p in global.game.players){
+                if (global.game.players[p].scene === scene.id) target = global.game.players[p];
+            }
+        }
+        
+        //
+        // No valid targets
+        //
+        if (!target){
+            return null;
+        }
+        
+        //
+        // Plot a route
+        //        
+        var future = null;
+        var tries = 0; // we give ourselves 10 tries at finding a workable path
+        
+        while (!future || !movement_is_valid(scene, actor, future) && tries < 10){
+            var path = movement_generate_follow_path(actor, target);
+            nextMove = path[0];
+            future = movement_get_future(actor, nextMove, path[1]);  
+            movement.activePath = path;  
+            tries++;
+        }
+        
+    }
+    return movement_create_path_action(scene, actor, movement);
+ }
+ 
+ /*
+  * Generate a path to a target, with both an x and a y component
+  * This is a bit basic, so we may want to do an A* later
+  */
+ movement_generate_follow_path = function(actor, target){
+    var Chance = require("chance");
+    var chance = new Chance();
+    var path = [];
+    
+    if (actor.x > target.x) path[0] = "W" + (actor.script.speed * 10);
+    if (actor.x < target.x) path[0] = "E" + (actor.script.speed * 10);
+    if (actor.y > target.y) path[1] = "N" + (actor.script.speed * 10);
+    if (actor.y < target.y) path[1] = "S" + (actor.script.speed * 10);
     
     //
-    // if its "no-one" then default to nearest player in the scene
+    // Randomise whether we go x then y or y then x
     //
+    if (chance.d4() > 2){
+        return path[0]+path[1];
+    } else {
+        return path[1]+path[0];
+    }
  }
  
  movement_is_valid = function(scene, actor, future){

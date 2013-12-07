@@ -56,7 +56,7 @@
                          ,  "y"     : 370
                          ,  "size"  : {"x":75, "y":80}
                          ,  "dialogue": true
-                         ,  "script": {"type":"PATH", "value":"N50S50*", "speed":10}
+                         ,  "script": {"type":"RANDOM", "speed":10}
                         }
                         ,
                         {

@@ -23,11 +23,40 @@ require("./collision.js");
     return action;
  }
  
- movement_create_random_action = function(scene, movement){
-    var directions = ["N", "S", "E", "W"];
+ /*
+  * Process a RANDOM movement script
+  */
+ movement_create_random_action = function(scene, actor, movement){
+ 
+    if (!movement.activePath || movement.activePath.length === 0){
+        var future = null;
+        while (!future || !movement_is_valid(scene, actor, future)){
+            var path = movement_generate_random_path(movement);
+            nextMove = path[0];
+            future = movement_get_future(actor, nextMove, path[1]);  
+            movement.activePath = path[0]+path[1];  
+        }
+    }
+    
+    return movement_create_path_action(scene, actor, movement);
     
  }
  
+ /*
+  * Generates a random path, e.g "N50"
+  */
+ movement_generate_random_path = function(movement){
+    var Chance = require("chance");
+    var chance = new Chance();
+    var direction = chance.d4();
+    var directions = ["N", "S", "E", "W"];
+    var distance = chance.d6()+2 * movement.speed;
+    return [directions[direction-1], distance];
+ }
+ 
+ /*
+  * Process a PATH movement script
+  */
  movement_create_path_action = function(scene, actor, movement){
     //
     // If movement path is empty, do nothing

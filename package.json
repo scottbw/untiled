@@ -8,6 +8,7 @@
     "socket.io": "0.9.x",
     "keys": "0.1.x",
     "redis": "0.9.x",
-    "dialoguejs": "0.1.x"
+    "dialoguejs": "0.1.x",
+    "chance": "0.5.x"
   }
 }

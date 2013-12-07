@@ -3,7 +3,7 @@
 ,   "title"         : "Outside The Scary Cave"    
 ,   "background"    : "/assets/backgrounds/desert.png"
 ,   "active"        : true
-,   "border"        : 10
+,   "border"        : {"top":10, "left":10, "right":10, "bottom":10}
 ,   "size"          : {"x":1200, "y":600}
 ,   "stickers"      : [
                         {
@@ -20,7 +20,7 @@
                             , "name" : "cave"
                             , "image": "/assets/stickers/evil_cave.png"
                             , "solid": true
-                            , "x"    : 700
+                            , "x"    : 600
                             , "y"    : 100
                             , "size" : {"x":405, "y":280}
                         },
@@ -29,7 +29,7 @@
                               "id"   : "amy" 
                             , "name" : "Amy"
                             , "solid": true
-                            , "x"    : 850
+                            , "x"    : 750
                             , "y"    : 390
                             , "size" : {"x":56, "y":80}
                             , "spritesheet": {

@@ -3,7 +3,7 @@
 ,   "title"         : "A Very Grassy Place"    
 ,   "background"    : "/assets/backgrounds/grassy_area.png"
 ,   "active"        : true
-,   "border"        : 10
+,   "border"        : {"top":180, "left":10, "right":10, "bottom":10}
 ,   "size"          : {"x":1200, "y":600}
 ,   "stickers"      : [
                         {

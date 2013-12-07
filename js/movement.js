@@ -179,9 +179,9 @@ require("./collision.js");
  
  movement_can_move = function(scene, actor, future){
     if (!scene.id) scene = global.game.scenes[scene];
-    if (future.x < scene.border) return false;
-    if (future.x + actor.size.x > scene.size.x - scene.border) return false;
-    if (future.y < scene.border) return false;
-    if (future.y + actor.size.y > scene.size.y - scene.border) return false;
+    if (future.x < scene.border.left) return false;
+    if (future.x + actor.size.x > scene.size.x - scene.border.right) return false;
+    if (future.y < scene.border.top) return false;
+    if (future.y + actor.size.y > scene.size.y - scene.border.bottom) return false;
     return true;
  }

@@ -96,7 +96,6 @@ scene_add_sticker = function(scene, sticker){
     //
     for (s in scene.stickers){
         if (scene.stickers[s].id === sticker.id){
-            console.log(sticker.id);
             return;
         }
     }

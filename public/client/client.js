@@ -226,6 +226,7 @@ client.add_sticker = function(sticker){
 // Scene updates
 //
 client.add_sticker_event = function(event){
+    console.log("added ",event.object);
     if (!client.get_sticker_from_object(event.object.object)){
         if (client.stickers.length == 0) return;
         client.stickers.push(event.object);
@@ -233,9 +234,32 @@ client.add_sticker_event = function(event){
     }
 }
 client.remove_sticker_event = function(event){
-    var sticker  = client.get_sticker_from_object(event.object); 
-    stage.removeChild(sticker.sprite);
-    stage.update();
+    console.log("removed ",event.object);
+    
+    //
+    // Locate the sticker in the client list
+    //
+    var stickerPos  = -1; 
+    for (s in client.stickers){
+        if (client.stickers[s].object == event.object){
+            console.log(stickerPos);
+            stickerPos = s;
+        }
+    }
+    
+    if (stickerPos != -1){
+    
+        //
+        // Remove sprite from stage
+        //
+        stage.removeChild(client.stickers[stickerPos].sprite);
+        stage.update();
+        
+        //
+        // Remove from client list
+        //
+        client.stickers.splice(stickerPos,1)
+    }
 }
 
 //
@@ -272,7 +296,6 @@ client.render_message_event = function(message){
 }
 
 client.render_say_event = function(message){
-    console.log(message);
     
     var actor = client.get_sticker_from_object(message.from);
 

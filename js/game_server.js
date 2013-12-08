@@ -183,47 +183,12 @@ Server.prototype.addPlayer = function(client, player){
     // Add player if not already present
     //        
     if (!global.game.players[player.id]) {
-        console.log(player.name+ " has been created as a new player");
-        global.game.players[player.id]=player;
+        player = game_new_player(player);
     } else {
         player = global.game.players[player.id];
     }
     
-    //
-    // Set up action buffer
-    //
-    player.actions = new Array();
-    
-    //
-    // If for some reason, the player doesn't have a scene, add one
-    //
-    if (!player.scene){
-        player.scene = "start";
-        player.x = 200;
-        player.y = 200;
-    }
-    
-    //
-    // Add the player to the scene
-    //
-    scene_add_sticker(player.scene, player);
-        
-    //
-    // Add session id for this player so we can remove it
-    // when the client disconnects
-    //
-    player.sessionId = client.id;
-    
-    //
-    // Create initial scene transition event for the player
-    //
-    game_render_scene(player);
-    
-    //
-    // Create a welcome message event
-    //
-    game_send_message("Welcome to Untiled!", player);
-
+    game_add_player(player, client.id);
 };
 
 //
@@ -231,26 +196,14 @@ Server.prototype.addPlayer = function(client, player){
 //
 Server.prototype.removePlayer = function(sessionId){
     console.log("removing player");
-    var that = this;
-    this.store.get(sessionId, function(err, key){
-        if (err || !key) return false;
-        that.store.get("players", function(err, data){
-            if (err || !data) {
-                global.game.players = {};
-            } else {
-                global.game.players = JSON.parse(data);
-            }
-            // Remove player if present
-            for (var player in global.game.players){
-                if (global.game.players[player].sessionId == sessionId) {
-                    global.game.players[player].sessionId = null;
-                    that.savePlayers();
-                }            
-            }
-
-        });
-
-    });
+    
+    for (p in global.game.players){
+        var player = global.game.players[p];
+        if (player.sessionId == sessionId){
+            player.sessionId = null;
+            game_remove_player(player);
+        }
+    }
 };
 
 //

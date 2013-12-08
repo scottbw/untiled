@@ -256,6 +256,70 @@ game_send_message = function(text, player){
     game.push_events.push(event);
 }
 
+
+//
+// Player management
+//
+
+/*
+ * Create a new player
+ */
+game_new_player = function(player){
+    console.log(player.name+ " has been created as a new player");
+    global.game.players[player.id]=player;
+    return player;
+}
+
+/*
+ * Add a player
+ */
+game_add_player = function(player, clientid){
+   //
+    // Set up action buffer
+    //
+    player.actions = new Array();
+    
+    //
+    // If for some reason, the player doesn't have a scene, add one
+    //
+    if (!player.scene){
+        player.scene = "start";
+        player.x = 200;
+        player.y = 200;
+    }
+    
+    //
+    // Add the player to the scene
+    //
+    scene_add_sticker(player.scene, player);
+        
+    //
+    // Add session id for this player so we can remove it
+    // when the client disconnects
+    //
+    player.sessionId = clientid;
+    
+    //
+    // Create initial scene transition event for the player
+    //
+    game_render_scene(player);
+    
+    //
+    // Create a welcome message event
+    //
+    game_send_message("Welcome to Untiled!", player);
+}
+
+/*
+ * Remove a player 
+ */
+game_remove_player = function(player){
+    //
+    // Remove from current scene
+    //
+    scene_remove_sticker(player.scene, player);
+}
+
 /////////////////////////////////////////////////
 //    Setup the game server and start the game //
 /////////////////////////////////////////////////
@@ -280,7 +344,7 @@ process.on('uncaughtException', function (err) {
 var gameserver = require("./js/game_server.js");
 
 // Set to false to continue a game; true to clear the DB and restart
-gameserver.start(false);
+gameserver.start(true);
 
 
 //

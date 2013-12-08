@@ -112,6 +112,11 @@ client.init = function(player){
             if (data.type === "STICKER_REMOVED"){
                 client.remove_sticker_event(data)
             } 
+            
+            // Inventory updates
+            if (data.type === "INVENTORY_UPDATED"){
+                client.update_inventory_event(data);
+            }
      });
 }
 
@@ -126,6 +131,14 @@ client.init = function(player){
 //
 client.send = function(action){
     client.socket.emit("message", action);
+}
+
+client.drop = function(id){
+    var action = {};
+    action.type="DROP";
+    action.item=id;
+    console.log(action);
+    client.send(action);
 }
 
 client.send_movement_action = function(direction){
@@ -219,8 +232,22 @@ client.add_sticker = function(sticker){
             image.x = sticker.x;
             image.y = sticker.y;
             sticker.sprite = image;
-            stage.addChild(image);
+            stage.addChildAt(image,0);
         }
+}
+
+//
+// Inventory updates
+//
+client.update_inventory_event = function(event){
+    var inventoryElement = document.getElementById("inventory");
+    var inventory = "<ul>";
+    for (i in event.inventory){
+        var item = event.inventory[i];
+        inventory += "<li>"+ item.name + " <a href='#' onClick=\"client.drop('"+item.id+"')\">drop</a></li>";
+    }
+    inventory += "</ul>";
+    inventoryElement.innerHTML = inventory;
 }
 
 //

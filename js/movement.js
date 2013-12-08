@@ -1,5 +1,4 @@
 require("./collision.js");
-require("./items.js");
 
 /*
  * Process a movement script and return an action
@@ -357,9 +356,6 @@ require("./items.js");
             bump.target = target;
             global.game.bump_events.push(bump);
             return false;
-        } else if (target.pickup === true){
-            item_pick_up(scene, actor, target);
-            return true;
         }
     }
     

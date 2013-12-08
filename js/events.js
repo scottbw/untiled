@@ -11,24 +11,27 @@ event_create = function(script){
  * Process an event
  */
 event_run = function(scene, event, source, target){
+
+    //
+    // Set a script on an object.
+    //
+    if (event.type === "SET_SCRIPT"){
     
-    //
-    // Set a movement script on an object.
-    //
-    if (event.type === "MOVE"){
-        var object_to_move = null;
+        var script_target = null;
         
         // If the object is not specified, we assume
         // its the target of the event
-        if (!event.object_id){
-            object_to_move = target;
+        if (!event.target){
+            script_target = target;
         } else {
-            if (global.scene.mobs[event.object_id]){
-                object_to_move = scene.mobs[event.object_id];
+            if (!scene.id) scene = global.game.scenes[scene];
+            for (s in scene.stickers){
+                if (scene.stickers[s].id === event.target) script_target = scene.stickers[s];
             }
         }
-        object_to_move.movement = event.movement;
         
+        script_target.script = event.script;
+
         //
         // Movement happens in the usual game loop, so we
         // don't need to send any special events to the client

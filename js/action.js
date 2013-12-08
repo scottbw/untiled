@@ -7,6 +7,7 @@
  *
  */
 require('./movement.js');
+require('./items.js');
 
 action_execute = function(scene, actor, action){
 
@@ -93,6 +94,13 @@ action_execute = function(scene, actor, action){
             var fireevent = {type:"SAY", dialogue: dialogue, from: target.id, to:actor.id, target:actor.id};
             global.game.push_events.push(fireevent);
         }
+        
+        //
+        // Pickup?
+        //
+        if (target.pickup){
+            item_pick_up(scene, actor, target);
+        }   
 
     }
   }

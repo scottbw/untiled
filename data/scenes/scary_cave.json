@@ -16,6 +16,15 @@
                           , "size"  : {"x":34, "y":34}
                           , "solid" : false
                           , "pickup": true
+                          , "onPickup": [
+                                { "type": "MESSAGE", "text": "You picked up a strange gem...", "to": "#TARGET"  },
+                                { "type": "SET_SCRIPT", "target": "gnu", "script": {"type": "FLEE", "speed":20}}
+                          
+                          ]
+                          , "onDrop": [
+                                { "type": "SET_SCRIPT", "target": "gnu", "script": {"type": "FOLLOW", "speed":20}}
+                          
+                          ]                          
                         }, 
                         {
                             "id"    : "sign"

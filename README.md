@@ -5,6 +5,8 @@ An RPG engine using Node JS. It doesn't use tiles :)
 
 ## Introduction
 
+I was inspired originally by engines such as RPGMaker, but wondered if it was possible to break out of the constraints of using tilesets. I also wanted to experiment with an engine where all the "things" (players, mobs, objects, scenery) can be handled in the same way with scripts and capabilities. So any scenery item can start walking around, an event can turn a player temporarily into a mob, objects can be given dialogue, etc.
+
 
 ## Getting Started
 

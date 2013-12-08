@@ -22,6 +22,9 @@ require("./collision.js");
     if (movement.type === "GOTO"){
         action = movement_create_goto_action(scene, actor, movement);
     }
+    if (movement.type === "FLEE"){
+        action = movement_create_flee_action(scene, actor, movement);
+    }
     return action;
  }
  
@@ -153,7 +156,7 @@ require("./collision.js");
         //
         if (!target){
             for (p in global.game.players){
-                if (global.game.players[p].scene === scene.id) target = global.game.players[p];
+                if (global.game.players[p].scene === scene.id && global.game.players[p].sessionId != null) target = global.game.players[p];
             }
         }
         
@@ -212,6 +215,66 @@ require("./collision.js");
     return movement_create_path_action(scene, actor, movement);
 
  
+ }
+ 
+  /*
+  * Process a FLEE script
+  */
+ movement_create_flee_action = function(scene, actor, movement){
+ 
+    if (movement.stuck > 100) return movement_create_random_action(scene, actor, movement);
+    //
+    // Create a movement script if we don't already have one, or if we are stuck
+    //    
+    if (!movement.activePath || movement.activePath.length === 0 || movement.stuck > 10){
+        //
+        // Who are we fleeing?
+        //
+        var target = movement.target_id;
+        
+        //
+        // TODO if its "no-one" then default to nearest player in the scene
+        //
+        if (!target){
+            for (p in global.game.players){
+                if (global.game.players[p].scene === scene.id) target = global.game.players[p];
+            }
+        }
+        //
+        // No valid targets
+        //
+        if (!target){
+            return movement_create_random_action(scene, actor, movement)
+        }
+        //
+        // Plot a route
+        //        
+        var future = null;
+        var tries = 0; // we give ourselves 10 tries at finding a workable path
+        while (!future || !movement_is_valid(scene, actor, future) && tries < 10){
+            var path = movement_generate_flee_path(actor, target);
+            nextMove = path[0];
+            future = movement_get_future(actor, nextMove, path[1]);  
+            movement.activePath = path;  
+            tries++;
+        }
+    }
+    return movement_create_path_action(scene, actor, movement);
+ }
+ 
+ movement_generate_flee_path = function(actor,target){
+   var path = movement_generate_follow_path(actor, target);
+   if (path.indexOf("N") != -1){
+        path = path.replace("N", "S");
+    } else {
+        path = path.replace("S", "N");
+    }
+    if (path.indexOf("E") != -1){
+        path = path.replace("E", "W");
+    } else {
+        path = path.replace("W", "E");
+    }
+    return path;
  }
  
  /*

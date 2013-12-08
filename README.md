@@ -39,4 +39,4 @@ PATH scripts are of the form "N50E50*" - a set of directions, distances, and an 
 
 ## Dialogue
 
-Dialogue uses DialogueJS.
+Dialogue uses [DialogueJS](https://github.com/scottbw/dialoguejs).

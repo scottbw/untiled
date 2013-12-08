@@ -71,6 +71,13 @@ action_execute = function(scene, actor, action){
   }
   
   //
+  // DROP an item
+  //
+  if (action.type === "DROP"){
+        item_drop(scene, actor, action.item);
+  }
+  
+  //
   // ACTION (the generic space-button one)
   //
   if (action.type === "ACTION"){

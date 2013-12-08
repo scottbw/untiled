@@ -25,6 +25,46 @@ item_pick_up = function(scene, actor, item){
     }
 }
 
-item_drop = function(scene, actor, item){
+item_drop = function(scene, actor, item_id){
+    
+    var index = -1;
+    var item = null;
+    
+    //
+    // Get the item
+    //
+    for (i in actor.inventory){
+        if (actor.inventory[i].id === item_id){
+            index = i;
+            item = actor.inventory[i];
+        }
+    }
+    
+    if (index === -1 || !item){
+        console.log("attempt to drop non-existant item");
+        return;
+    }
+
+    //
+    // Add the item to the scene
+    //
+    item.x = actor.x;
+    item.y = actor.y;
+    scene_add_sticker(scene, item);
+    
+    //
+    // Remove the item from the actor
+    //
+    actor.inventory.splice(index,1);
+    
+    //
+    // Process any events
+    //
+    if (item.onDrop){
+        for (e in item.onDrop){
+            var event = item.onDrop[e];
+            event_run(scene, event, item, actor);
+        }
+    }
 
 }

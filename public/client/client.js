@@ -217,7 +217,8 @@ client.add_sticker = function(sticker){
         } else {
             var image = new createjs.Bitmap(sticker.image);
             image.x = sticker.x;
-            image.y = sticker.y
+            image.y = sticker.y;
+            sticker.sprite = image;
             stage.addChild(image);
         }
 }
@@ -242,7 +243,6 @@ client.remove_sticker_event = function(event){
     var stickerPos  = -1; 
     for (s in client.stickers){
         if (client.stickers[s].object == event.object){
-            console.log(stickerPos);
             stickerPos = s;
         }
     }
@@ -252,7 +252,10 @@ client.remove_sticker_event = function(event){
         //
         // Remove sprite from stage
         //
-        stage.removeChild(client.stickers[stickerPos].sprite);
+        var sticker = client.stickers[stickerPos];
+        if (sticker.sprite){
+            stage.removeChild(sticker.sprite);
+        }
         stage.update();
         
         //

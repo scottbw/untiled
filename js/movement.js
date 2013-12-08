@@ -1,4 +1,5 @@
 require("./collision.js");
+require("./items.js");
 
 /*
  * Process a movement script and return an action
@@ -35,11 +36,13 @@ require("./collision.js");
  
     if (!movement.activePath || movement.activePath.length === 0 || movement.stuck > 10){
         var future = null;
-        while (!future || !movement_is_valid(scene, actor, future)){
+        var tries = 0;
+        while ((!future || !movement_is_valid(scene, actor, future)) && tries < 10){
             var path = movement_generate_random_path(movement);
             nextMove = path[0];
             future = movement_get_future(actor, nextMove, path[1]);  
-            movement.activePath = path[0]+path[1];  
+            movement.activePath = path[0]+path[1]; 
+            tries++; 
         }
     }
     
@@ -332,18 +335,7 @@ require("./collision.js");
  }
  
  movement_is_valid = function(scene, actor, future){
-    //
-    // Does the move result in bumping into something? If so,
-    // add a bump event but not a move action
-    //
-    var target = movement_check_target(scene, actor, future);
-    if (target){
-        var bump = {};
-        bump.source = actor;
-        bump.target = target;
-        global.game.bump_events.push(bump);
-        return false;
-    }
+
     
     //
     // If there is nothing there but we can't move there, such as into the
@@ -351,6 +343,24 @@ require("./collision.js");
     //
     if (!movement_can_move(scene, actor, future)){
         return false;
+    }
+    
+    //
+    // Does the move result in bumping into something? If so,
+    // add a bump event but not a move action
+    //
+    var target = movement_check_target(scene, actor, future);
+    if (target){
+        if (target.solid == null || target.solid === true){
+            var bump = {};
+            bump.source = actor;
+            bump.target = target;
+            global.game.bump_events.push(bump);
+            return false;
+        } else if (target.pickup === true){
+            item_pick_up(scene, actor, target);
+            return true;
+        }
     }
     
     //

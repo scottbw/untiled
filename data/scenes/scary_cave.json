@@ -6,6 +6,17 @@
 ,   "border"        : {"top":10, "left":10, "right":10, "bottom":10}
 ,   "size"          : {"x":1200, "y":600}
 ,   "stickers"      : [
+
+                        {
+                            "id"    : "gem"
+                          , "name"  : "gem"
+                          , "image" : "/assets/stickers/gem.png"
+                          , "x"     : 20
+                          , "y"     : 20
+                          , "size"  : {"x":34, "y":34}
+                          , "solid" : false
+                          , "pickup": true
+                        }, 
                         {
                             "id"    : "sign"
                          ,  "name"  : "sign"

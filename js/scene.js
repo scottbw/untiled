@@ -114,7 +114,7 @@ scene_add_sticker = function(scene, sticker){
 scene_remove_sticker = function(scene, sticker){
     if (!scene.id) scene = global.game.scenes[scene];
     
-    scene.stickers.splice(scene.stickers.indexOf(sticker));
+    scene.stickers.splice(scene.stickers.indexOf(sticker),1);
     
     var event = {};
     event.type="STICKER_REMOVED";

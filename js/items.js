@@ -23,6 +23,12 @@ item_pick_up = function(scene, actor, item){
             event_run(scene, event, item, actor);
         }
     }
+    
+    //
+    // Create an inventory update event
+    //
+    item_send_inventory_update(actor);
+    
 }
 
 item_drop = function(scene, actor, item_id){
@@ -66,5 +72,42 @@ item_drop = function(scene, actor, item_id){
             event_run(scene, event, item, actor);
         }
     }
+    
+    //
+    // Create an inventory update event
+    //
+    item_send_inventory_update(actor);
+}
 
+//
+// Create an inventory update event
+//
+item_send_inventory_update = function(actor){
+
+    //
+    // Only provide limited inventory info to the client
+    //
+    var inventory = [];    
+    for (i in actor.inventory){
+        var item = actor.inventory[i];
+        var inventory_item = {};
+        inventory_item.id = item.id;
+        inventory_item.name = item.name;
+        inventory_item.image = item.image;
+        inventory.push(inventory_item);
+    }
+    
+    //
+    // Create the event
+    //
+    var event = {};
+    event.type = "INVENTORY_UPDATED";
+    event.inventory = inventory;
+    event.target = actor.id;
+    event.source = actor.id;
+        
+    //
+    // Add event to push events buffer
+    //
+    global.game.push_events.push(event);
 }

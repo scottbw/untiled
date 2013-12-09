@@ -69,6 +69,13 @@ event_run = function(scene, event, source, target){
     }
     
     //
+    // Set a property of the target sticker
+    //
+    if (event.type === "SET_STICKER_PROPERTY"){
+        target.properties[event.name] = event.value;
+    }
+    
+    //
     // Set the (global) property specified; no client event raised
     // although on a subsequent loop this may trigger another
     // event

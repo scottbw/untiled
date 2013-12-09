@@ -88,6 +88,38 @@ scene_get_render_info_for_sticker = function(sticker){
     return rendered_sticker;
 }
 
+
+/*
+ * Adds a sticker to a scene, spawning in an empty location
+ */ 
+scene_spawn_sticker = function(scene, sticker){
+    
+    if (!scene.id) scene = global.game.scenes[scene];
+    
+    //
+    // Generate spawn locations until we stop triggering collisions
+    //
+    var spawned = false;
+    Chance = require("chance");
+    var chance = new Chance();
+    while (!spawned){
+        var future = {};
+        future.x = chance.natural({min:0, max:scene.size.x});
+        future.y = chance.natural({min:0, max:scene.size.y});
+        
+        if (movement_is_valid(scene, sticker, future)){
+            spawned = true;
+            sticker.x = future.x;
+            sticker.y = future.y;
+            scene_add_sticker(scene, sticker);
+        }
+    }
+
+}
+
+/*
+ * Adds a sticker to a scene at a specific location (the sticker .x and .y)
+ */
 scene_add_sticker = function(scene, sticker){
     if (!scene.id) scene = global.game.scenes[scene];
     
@@ -97,6 +129,12 @@ scene_add_sticker = function(scene, sticker){
     for (s in scene.stickers){
         if (scene.stickers[s].id === sticker.id){
             return;
+        }
+    }
+    
+    if (sticker.script){
+        if (sticker.script.type === "PATH"){
+            sticker.script.activePath = sticker.script.value;
         }
     }
     

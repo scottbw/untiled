@@ -78,23 +78,10 @@ game_process_actions = function(){
 //
 
 /*
- * Create an event updating where each player is
+ * Create an event updating where each sticker is
  * and push it onto the stack
  */
 game_process_move_updates = function(){
-    for (p in global.game.players){
-        var player = global.game.players[p];  
-        if (player.hasMoved){
-            var event = {};
-            event.type = "MOVE";
-            event.object = player.id;
-            event.x = player.x;
-            event.y = player.y;
-            event.scene = player.scene;
-            global.game.push_events.push(event);
-            player.hasMoved = false;
-        }
-    } 
     for (s in global.game.scenes){
         var scene = global.game.scenes[s]; 
         for (m in scene.stickers){
@@ -284,14 +271,12 @@ game_add_player = function(player, clientid){
     //
     if (!player.scene){
         player.scene = "start";
-        player.x = 200;
-        player.y = 200;
     }
     
     //
     // Add the player to the scene
     //
-    scene_add_sticker(player.scene, player);
+    scene_spawn_sticker(player.scene, player);
         
     //
     // Add session id for this player so we can remove it

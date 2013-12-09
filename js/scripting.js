@@ -20,7 +20,7 @@ script_evaluate_rules = function(scene, actor, script){
             var action = script_evaluate_rule(script.rules[r], scene, actor);
             if (action != null){
                 for (var i = 0; i < script.rules[r].importance; i++){
-                    console.log(script.rules[r].condition + " " + script.rules[r].action + " " + script.rules[r].property);
+                    action.debug = (script.rules[r].condition + " " + script.rules[r].action + " " + script.rules[r].property);
                     actions.push(action);                    
                 }
 
@@ -31,13 +31,16 @@ script_evaluate_rules = function(scene, actor, script){
         // No actions? Just do something random then.
         //
         if (actions.length === 0){
+            console.log("resorting to random");
             return movement_create_random_action(scene, actor, actor.script);
         }
         
         //
         // Choose an action.
         //        
-        return chance.pick(actions);
+        var action = chance.pick(actions);
+        console.log(action.debug);
+        return action;
     }
     
     return movement_create_path_action(scene,actor,script);
@@ -52,9 +55,11 @@ script_evaluate_rule = function(rule, scene, actor){
     // First, check the condition
     //
     if (rule.condition){
-        var value = actor.properties[rule.condition.value];
-        if (rule.condition.type === "IF" && !value) return null;
-        if (rule.condition.type === "IF NOT" && value) return null;
+        var words = rule.condition.split(" ");
+        var match = words[words.length-1];
+        var value = actor.properties[match];
+        if (words[0] === "IF" && words.length === 2 && !value) return null;
+        if (words[1] === "NOT" && value) return null;
     }
     
     //
@@ -100,32 +105,24 @@ script_evaluate_rule = function(rule, scene, actor){
         targets = chance.shuffle(targets);
         
         //
-        // PICKUP
+        // PICKUP and FIGHT
         //
         for (t in targets){
             var target = targets[t];
             if (target.object.properties && target.object.properties[rule.property]){
                 if (rule.action === "PICKUP"){
                     var action = {};
-                    actor.face = target.direction;
                     action.object = actor.id;
                     action.type = "ACTION";
                     return action;
                 } else {
                     var action = {};
-                    actor.face = target.direction;
                     action.object = actor.id;
-                    action.type = "ATTACK";
+                    action.type = "FIGHT";
                     return action;                    
                 }
             }
         }
-        
-        
-        
-    // TODO
-    
-    // No match
     }
     return null;
 }

@@ -1,6 +1,9 @@
 require("./collision.js");
 require("./scripting.js");
 
+var Chance = require("chance");
+var chance = new Chance();
+
 /*
  * Process a movement script and return an action
  */
@@ -57,8 +60,6 @@ require("./scripting.js");
   * Generates a random path, e.g "N50"
   */
  movement_generate_random_path = function(movement){
-    var Chance = require("chance");
-    var chance = new Chance();
     var direction = chance.d4();
     var directions = ["N", "S", "E", "W"];
     var distance = chance.d6()+2 * movement.speed;
@@ -289,8 +290,6 @@ require("./scripting.js");
   * This is a bit basic, so we may want to do an A* later
   */
  movement_generate_follow_path = function(actor, target){
-    var Chance = require("chance");
-    var chance = new Chance();
     var path = [];
     
     if (actor.x > target.x){
@@ -312,7 +311,6 @@ require("./scripting.js");
         var path_distance = actor.script.speed * 10;
         var actual_distance = actor.y - target.y;
         if (path_distance > actual_distance && actor.script.stuck < 5) path_distance = actual_distance;   
-        
         path[1] = "N" + path_distance.round();
         
     }
@@ -327,14 +325,13 @@ require("./scripting.js");
     
     if (!path[0]) path[0] = path[1];
     if (!path[1]) path[1] = path[0];
-    
     //
     // Randomise whether we go x then y or y then x
     //
-    if (chance.d4() > 2){
-        return path[0]+path[1];
-    } else {
+    if (chance.bool()){
         return path[1]+path[0];
+    } else {
+        return path[0]+path[1];
     }
  }
  

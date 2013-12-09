@@ -8,10 +8,25 @@
 ,   "stickers"      : [
 
                         {
+                            "id"    : "sword"
+                          , "name"  : "sword"
+                          , "image" : "/assets/stickers/sword.png"
+                          , "x"     : 20
+                          , "properties": {"weapon":true, "pickup":true}
+                          , "y"     : 500
+                          , "size"  : {"x":34, "y":34}
+                          , "solid" : false
+                          , "pickup": true
+                          , "onPickup":[
+                            {"type":"SET_STICKER_PROPERTY", "name":"armed", "value": true}
+                          ]
+                        },
+                        {
                             "id"    : "gem"
                           , "name"  : "gem"
                           , "image" : "/assets/stickers/gem.png"
                           , "x"     : 20
+                          , "properties": {"treasure":true, "pickup":true}
                           , "y"     : 20
                           , "size"  : {"x":34, "y":34}
                           , "solid" : false
@@ -49,6 +64,7 @@
                               "id"   : "amy" 
                             , "name" : "Amy"
                             , "solid": true
+                            , "properties": {"fightable":true}
                             , "x"    : 750
                             , "y"    : 390
                             , "size" : {"x":56, "y":80}
@@ -67,6 +83,7 @@
                               "id"   : "gnu"
                             , "name" : "Gnu"
                             , "solid": true
+                            , "properties": {"fightable":true}
                             , "x"    : 250
                             , "y"    : 400
                             , "size" : {"x":56, "y":80}
@@ -84,7 +101,7 @@
                         {
                               "type" : "onEnter"
                             , "x"    : 1100
-                            , "y"    : 0
+                            , "y"    : 250
                             , "xx"   : 1200
                             , "yy"   : 600
                             , "active": true

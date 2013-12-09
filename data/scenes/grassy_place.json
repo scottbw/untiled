@@ -73,7 +73,7 @@
                                                "animations": { "stand" : [0,2], "walk" : [3,5]}     
                                             }  
                             , "dialogue": false  
-                            ,  "script": {"type":"GOTO", "target":{"x":150, "y":450}, "speed":10}                        
+                            ,  "script": {"type":"FLEE", "speed":10}                        
                         }                      
                       ]
 , "triggers"        : [

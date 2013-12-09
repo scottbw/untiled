@@ -55,7 +55,7 @@ item_drop = function(scene, actor, item_id){
     // Add the item to the scene
     //
     item.x = actor.x;
-    item.y = actor.y + actor.size.y;
+    item.y = actor.y + actor.size.y - item.size.y;
     scene_add_sticker(scene, item);
     
     //

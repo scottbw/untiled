@@ -132,10 +132,21 @@ scene_add_sticker = function(scene, sticker){
         }
     }
     
+    //
+    // Initialize path
+    // TODO move this into movement
+    //
     if (sticker.script){
         if (sticker.script.type === "PATH"){
             sticker.script.activePath = sticker.script.value;
         }
+    }
+    
+    //
+    // Default properties
+    //
+    if (!sticker.properties){
+        sticker.properties = {solid:"true"}
     }
     
     scene.stickers.push(sticker);

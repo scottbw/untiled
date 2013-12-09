@@ -1,4 +1,5 @@
 require("./collision.js");
+require("./scripting.js");
 
 /*
  * Process a movement script and return an action
@@ -24,6 +25,9 @@ require("./collision.js");
     }
     if (movement.type === "FLEE"){
         action = movement_create_flee_action(scene, actor, movement);
+    }
+    if (movement.type === "COMPOSITE"){
+        action = script_evaluate_rules(scene, actor, movement);
     }
     return action;
  }
@@ -65,11 +69,12 @@ require("./collision.js");
   * Process a PATH movement script
   */
  movement_create_path_action = function(scene, actor, movement){
+ 
     //
     // If movement path is empty, do nothing
     //
-    if (movement.activePath.length === 0 ) return null;
- 
+    if (!movement.activePath || movement.activePath.length === 0 ) return null;
+     
     //
     // Check if we need to reset the path
     //
@@ -89,7 +94,6 @@ require("./collision.js");
     // if the following character is a number, we decrement it rather than remove it
     //
     if (movement_is_valid(scene, actor, future)){
-        
         //
         // If we were stuck, we aren't now
         //
@@ -151,7 +155,7 @@ require("./collision.js");
         //
         // Who are we following?
         //
-        var target = movement.target_id;
+        var target = movement.target;
         
         //
         // TODO if its "no-one" then default to nearest player in the scene
@@ -222,17 +226,18 @@ require("./collision.js");
   /*
   * Process a FLEE script
   */
- movement_create_flee_action = function(scene, actor, movement){
+ movement_create_flee_action = function(scene, actor, movement, target){
  
     if (movement.stuck > 100) return movement_create_random_action(scene, actor, movement);
     //
     // Create a movement script if we don't already have one, or if we are stuck
     //    
     if (!movement.activePath || movement.activePath.length === 0 || movement.stuck > 10){
+    
         //
         // Who are we fleeing?
         //
-        var target = movement.target_id;
+        if (!target) target = movement.target_id;
         
         //
         // TODO if its "no-one" then default to nearest player in the scene

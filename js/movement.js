@@ -143,7 +143,7 @@ require("./scripting.js");
  /*
   * Process a FOLLOW script
   */
- movement_create_follow_action = function(scene, actor, movement){
+ movement_create_follow_action = function(scene, actor, movement, target){
  
     if (movement.stuck > 100) return movement_create_random_action(scene, actor, movement);
 
@@ -155,7 +155,7 @@ require("./scripting.js");
         //
         // Who are we following?
         //
-        var target = movement.target;
+        if (!target) target = movement.target;
         
         //
         // TODO if its "no-one" then default to nearest player in the scene

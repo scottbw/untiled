@@ -18,7 +18,13 @@ script_evaluate_rules = function(scene, actor, script){
         //
         for (r in script.rules){
             var action = script_evaluate_rule(script.rules[r], scene, actor);
-            if (action != null) actions.push(action);
+            if (action != null){
+                for (var i = 0; i < script.rules[r].importance; i++){
+                    console.log(script.rules[r].condition + " " + script.rules[r].action + " " + script.rules[r].property);
+                    actions.push(action);                    
+                }
+
+            }
         }
         
         //
@@ -29,9 +35,8 @@ script_evaluate_rules = function(scene, actor, script){
         }
         
         //
-        // Choose an action. We prune it down to the top 3 then select one at random
-        //
-        if (actions.length > 3) actions.splice(0,3);
+        // Choose an action.
+        //        
         return chance.pick(actions);
     }
     
@@ -75,15 +80,61 @@ script_evaluate_rule = function(rule, scene, actor){
         if (rule.action === "FLEE"){
             return movement_create_flee_action(scene,actor,actor.script,target);
         } else {
-            return movement_create_follow_action(scene,actor,actor.script);
+            var action = movement_create_follow_action(scene,actor,actor.script, target);
+            return action;
         }
     }
     // FIGHT and PICKUP
+    
+    if (rule.action === "FIGHT" || rule.action === "PICKUP"){
+    
+        //
+        // What is next to us?
+        //
+        var targets = [];
+        var directions = ["N","S","E","W"];
+        for (d in directions){
+            var target = script_find_adjacent(scene, actor,directions[d]); 
+            if (target != null) targets.push({direction: directions[d], object:target});   
+        }
+        targets = chance.shuffle(targets);
+        
+        //
+        // PICKUP
+        //
+        for (t in targets){
+            var target = targets[t];
+            if (target.object.properties && target.object.properties[rule.property]){
+                if (rule.action === "PICKUP"){
+                    var action = {};
+                    actor.face = target.direction;
+                    action.object = actor.id;
+                    action.type = "ACTION";
+                    return action;
+                } else {
+                    var action = {};
+                    actor.face = target.direction;
+                    action.object = actor.id;
+                    action.type = "ATTACK";
+                    return action;                    
+                }
+            }
+        }
+        
+        
+        
     // TODO
     
     // No match
+    }
     return null;
 }
+
+script_find_adjacent = function(scene, actor, direction){
+    var future = movement_get_future(actor, "N");
+    return movement_check_target(scene, actor, future);
+}
+
 
 /*
  * Finds the nearest sticker with the specified property

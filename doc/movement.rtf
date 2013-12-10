@@ -1,34 +1,46 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf360
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww9000\viewh8400\viewkind0
+\paperw11900\paperh16840\margl1440\margr1440\vieww21580\viewh16320\viewkind0
 \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
 
 \f0\b\fs24 \cf0 Movement
 \b0 \
 \
-When a mob is initialized, its Movement is set either from its mob data, or the scene data. \
+When a sticker is initialized, its Movement is set from the scene data. \
 \
-Events can give a mob, or even a player, a Movement value\
+Events can give any sticker,  even a player, a Movement script which it then executes.\
 \
 \ul PATH\ulnone \
 \
-A PATH script is a set of directions.\
+A PATH script is a set of directions and instructions..\
 \
 Each PATH script is initially copied into an activePath property on the object.\
 \
-The activePath is processed one character at a time, and the character is removed from the script. The exception is a *; in this case the activePath is re-initialized from PATH\
+The activePath is processed one instruction at a time, and the instruction is removed from the script once it is used up \
+\
+(The exception is a *; in this case the activePath is re-initialized from PATH)\
 \
 e..g\
 \
-PATH = NS*\
+PATH = N50S50*\
 speed = 4\
-activePath = NS*\
+activePath = N50S50*\
 \
-On first loop, the mob gets the action N4, and activePath is set to "S*"\
-On second loop, the mob gets the action S4, and activePath is set to "NS*"\
+The mob first gets the action N50, and activePath is set to "S*". The mob moves 50 steps north at speed 4. After that, it gets the action S50. Once it has moved 50 steps south, the activePath is reset to "N50S50*"\
 \
 \ul FOLLOW\ulnone \
 \
+Move towards the nearest player sticker, or another specified target\
+\
 \ul RANDOM\ulnone \
-}
+\
+Generates random movements for the sticker\
+\
+\ul FLEE\ulnone \
+\
+Move away from the nearest player sticker, or another specified target\
+\
+\ul GOTO\ulnone \
+\
+Go to a specified scene location (x,y)}

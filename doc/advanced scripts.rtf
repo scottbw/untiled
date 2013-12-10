@@ -1,0 +1,28 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf360
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww9000\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
+
+\f0\b\fs24 \cf0 \ul \ulc0 Advanced Scripting
+\b0 \ulnone \
+\
+Automation scripts can be used to create "autonomous players".\
+\
+It consists of ranked directives consisting of condition, action, and property.\
+\
+E.g.:\
+\
+IF unarmed SEEK weapon\
+ALWAYS FIGHT fightable\
+ALWAYS SEEK treasure\
+ALWAYS PICKUP treasure\
+\
+This character will first enter the game looking for a weapon, and then will fight anything that gets in their way as they look for treasure. \
+\
+However, you could create a character that only looks for treasure:\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
+\cf0 ALWAYS FLEE fightable\
+ALWAYS SEEK treasure\
+ALWAYS PICKUP treasure}

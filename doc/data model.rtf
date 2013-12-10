@@ -11,21 +11,20 @@
 -- Animation: whether there are any animation steps\
 \
 \ul Properties\ulnone \
-Solid: whether movement is permitted\
+Solid: whether movement is permitted (default: true)\
 \
 \ul Events\ulnone \
 - onBump: events to process when a player or other object collides with it (used to create Triggers in the scene)\
 \
-\ul Movement\ulnone : stickers can have standard movement, e.g. random, circular etc\
+\ul Script\ulnone \
+Stickers can have standard movement, e.g. random, circular etc\
 -- type: RANDOM, FOLLOW, PATH\
--- value: e.g. for PATH this might be "NNNEEESSSWWW*" where each is a direction, and * means to repeat indefinitely.\
+-- value: e.g. for PATH this might be "N50S50*" where each is a direction and a distance to walk, and * means to repeat indefinitely.\
 -- speed:\
 \
+\ul Dialogue\ulnone \
+If "true", a matching dialogue file will be loaded for the sticker\
 \
-
-\b Mob Data
-\b0 \
-Same as sticker data\
 \
 
 \b Scene Data\
@@ -44,27 +43,21 @@ Title: the title for the scene\
 --- x\
 --- y\
 --- overrides for Movement\
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
-\cf0 --- overrides for Properties\
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
-\cf0 \
+--- overrides for Properties\
+\
 \ul Triggers\ulnone : events at particular locations in the scene, or particular times within the scene\
 -- active [true|false]\
--- onEnter(object, x,y,xx,yy)\
--- onLeave(object, x,y,xx,yy)\
--- onTime(gametime)\
--- onPropertySet(propertyname, propertyvalue)\
--- onChoice(choiceid)\
--- onBump(source, target)\
--- onAction(object)\
+-- Type\
+    -- onEnter(object, x,y,xx,yy)\
+    -- onLeave(object, x,y,xx,yy)\
+    -- onTime(gametime)\
+    -- onPropertySet(propertyname, propertyvalue)\
+    -- onChoice(choiceid)\
+    -- onBump(source, target)\
+    -- onAction(object)\
 \
-Mobs: the NPCs and monsters in the scene\
---- scene_mob_id: the id of the mob instance in the scene\
---- mob_id: the id of the mob template to instantiate\
---- x\
---- y\
---- overrides for Movement\
---- overrides for Properties\
+\ul Stickers\ulnone : the NPCs and monsters in the scene\
+See under "Stickers"\
 \
 
 \b Event Data

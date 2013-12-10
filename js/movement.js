@@ -238,7 +238,7 @@ var chance = new Chance();
         //
         // Who are we fleeing?
         //
-        if (!target) target = movement.target_id;
+        if (!target) target = movement.target;
         
         //
         // TODO if its "no-one" then default to nearest player in the scene
@@ -290,41 +290,30 @@ var chance = new Chance();
   * This is a bit basic, so we may want to do an A* later
   */
  movement_generate_follow_path = function(actor, target){
+ 
+    var speed_per_tick = (actor.script.speed * 0.045).fixed(3);
     var path = [];
     
     if (actor.x > target.x){
-        var path_distance = actor.script.speed * 10;
-        var actual_distance = actor.x - target.x;
-        if (path_distance > actual_distance && actor.script.stuck < 5) path_distance = actual_distance;
-        
-        path[0] = "W" + path_distance.round();
+        path[0] = "W";
     }
-    if (actor.x < target.x){
-        var path_distance = actor.script.speed * 10;
-        var actual_distance = target.x - actor.x;
-        if (path_distance > actual_distance && actor.script.stuck < 5) path_distance = actual_distance;        
-        
-        path[0] = "E" + path_distance.round();
-     
+    if (actor.x < target.x){        
+        path[0] = "E";
     }
-    if (actor.y > target.y){
-        var path_distance = actor.script.speed * 10;
-        var actual_distance = actor.y - target.y;
-        if (path_distance > actual_distance && actor.script.stuck < 5) path_distance = actual_distance;   
-        path[1] = "N" + path_distance.round();
+    
+    var distance = Math.abs(actor.x - target.x);
+    path[0] += (distance / speed_per_tick).round();
+    
+    if (actor.y > target.y){ 
+        path[1] = "N";
         
     }
     if (actor.y < target.y){
-        var path_distance = actor.script.speed * 10;
-        var actual_distance = target.y - actor.y;
-        if (path_distance > actual_distance && actor.script.stuck < 5) path_distance = actual_distance; 
-             
-        path[1] = "S" + path_distance.round();
-        
+        path[1] = "S";
     }
+    var distance = Math.abs(actor.y - target.y);
+    path[1] += (distance / speed_per_tick).round();
     
-    if (!path[0]) path[0] = path[1];
-    if (!path[1]) path[1] = path[0];
     //
     // Randomise whether we go x then y or y then x
     //

@@ -195,6 +195,11 @@ game_init = function(){
     // Load scenes
     //
     scene_load_scenes();
+    
+    //
+    // Load items
+    //
+    item_load_items();
 }
 
 /*

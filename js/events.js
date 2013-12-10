@@ -1,4 +1,4 @@
-
+require('./items.js');
 
 /**
  * Create an event object
@@ -11,6 +11,14 @@ event_create = function(script){
  * Process an event
  */
 event_run = function(scene, event, source, target){
+
+    //
+    // Spawn a random item
+    //
+    if (event.type === "SPAWN_RANDOM_ITEM"){
+        console.log("Spawning random stuff");
+        item_spawn_random_item(scene);
+    }
 
     //
     // Set a script on an object.

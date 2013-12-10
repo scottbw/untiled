@@ -6,31 +6,15 @@
 ,   "border"        : {"top":10, "left":10, "right":10, "bottom":10}
 ,   "size"          : {"x":1200, "y":600}
 ,   "stickers"      : [
-
-                        {
-                            "id"    : "sword"
-                          , "name"  : "sword"
-                          , "image" : "/assets/stickers/sword.png"
-                          , "x"     : 20
-                          , "properties": {"weapon":true, "pickup":true}
-                          , "y"     : 500
-                          , "size"  : {"x":34, "y":34}
-                          , "solid" : false
-                          , "pickup": true
-                          , "onPickup":[
-                            {"type":"SET_STICKER_PROPERTY", "name":"armed", "value": true}
-                          ]
-                        },
                         {
                             "id"    : "gem"
-                          , "name"  : "gem"
+                          , "name"  : "Gem of Scariness"
                           , "image" : "/assets/stickers/gem.png"
                           , "x"     : 20
                           , "properties": {"treasure":true, "pickup":true}
                           , "y"     : 20
                           , "size"  : {"x":34, "y":34}
                           , "solid" : false
-                          , "pickup": true
                           , "onPickup": [
                                 { "type": "MESSAGE", "text": "You picked up a strange gem...", "to": "#TARGET"  },
                                 { "type": "SET_SCRIPT", "target": "gnu", "script": {"type": "FLEE", "speed":20}}
@@ -98,6 +82,12 @@
                         }
                       ]
 , "triggers"        : [
+                        {
+                              "type": "onInterval"
+                            , "duration": 250
+                            , "event": {"type":"SPAWN_RANDOM_ITEM"}
+                            , "active": true
+                        },
                         {
                               "type" : "onEnter"
                             , "x"    : 1100

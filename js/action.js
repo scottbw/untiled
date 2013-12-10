@@ -105,7 +105,7 @@ action_execute = function(scene, actor, action){
         //
         // Pickup?
         //
-        if (target.pickup){
+        if (target.properties && target.properties.pickup){
             item_pick_up(scene, actor, target);
         }   
 

@@ -36,21 +36,30 @@ trigger_evaluate = function(scene, trigger){
     // Location triggers
     //
     if (trigger.type === "onLocation"){
-    for (p in global.game.players){
-        var player = global.game.players[p];
-        if (player.scene == scene.id){
-            if (player.x >= trigger.x && player.x <= trigger.xx){
-                if (player.y >= trigger.y && player.y <= trigger.yy){
-                    event_run(scene, trigger.event,player,null);
+        for (p in global.game.players){
+            var player = global.game.players[p];
+            if (player.scene == scene.id){
+                if (player.x >= trigger.x && player.x <= trigger.xx){
+                    if (player.y >= trigger.y && player.y <= trigger.yy){
+                        event_run(scene, trigger.event,player,null);
+                    }
                 }
             }
         }
     }
-}
     
     //
     // Time events
     //
+    if (trigger.type === "onInterval"){
+        if (!scene.timer) scene.timer = trigger.duration;
+        if (scene.timer == 1){
+            event_run(scene, trigger.event, null, null);
+            scene.timer = trigger.duration;
+        } else {
+            scene.timer--;       
+        }
+    }
     
     //
     // Property events

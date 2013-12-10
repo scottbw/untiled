@@ -2,6 +2,8 @@
 // Advanced character scripting
 //
 
+require('./properties.js');
+
 var Chance = require("Chance");
 var chance = new Chance();
 
@@ -31,7 +33,6 @@ script_evaluate_rules = function(scene, actor, script){
         // No actions? Just do something random then.
         //
         if (actions.length === 0){
-            console.log("resorting to random");
             return movement_create_random_action(scene, actor, actor.script);
         }
         
@@ -57,7 +58,7 @@ script_evaluate_rule = function(rule, scene, actor){
     if (rule.condition){
         var words = rule.condition.split(" ");
         var match = words[words.length-1];
-        var value = actor.properties[match];
+        var value = properties_has_property(actor, match);
         if (words[0] === "IF" && words.length === 2 && !value) return null;
         if (words[1] === "NOT" && value) return null;
     }
@@ -109,14 +110,16 @@ script_evaluate_rule = function(rule, scene, actor){
         //
         for (t in targets){
             var target = targets[t];
-            if (target.object.properties && target.object.properties[rule.property]){
+            if ( properties_has_property(target.object, rule.property)){
                 if (rule.action === "PICKUP"){
                     var action = {};
+                    actor.face = target.direction;
                     action.object = actor.id;
                     action.type = "ACTION";
                     return action;
                 } else {
                     var action = {};
+                    actor.face = target.direction;
                     action.object = actor.id;
                     action.type = "FIGHT";
                     return action;                    
@@ -128,7 +131,7 @@ script_evaluate_rule = function(rule, scene, actor){
 }
 
 script_find_adjacent = function(scene, actor, direction){
-    var future = movement_get_future(actor, "N");
+    var future = movement_get_future(actor, direction, actor.speed * 2);
     return movement_check_target(scene, actor, future);
 }
 
@@ -140,7 +143,7 @@ script_find_nearest = function(property, scene, actor){
     var target = null;
     for (s in scene.stickers){
             var sticker = scene.stickers[s];
-            if (sticker.properties && sticker.properties[property]){
+            if (properties_has_property(sticker, property)){
                 if (target == null){
                     target = sticker;
                 } else {

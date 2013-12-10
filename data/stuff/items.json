@@ -1,0 +1,37 @@
+{
+ "items" :       
+    [
+
+        {
+            "id"    : "sword"
+          , "name"  : "Sword"
+          , "image" : "/assets/stickers/sword.png"
+          , "x"     : 20
+          , "properties": {"weapon":true, "pickup":true}
+          , "bestows": ["armed"]
+          , "y"     : 500
+          , "size"  : {"x":34, "y":34}
+          , "solid" : false
+        },
+        {
+            "id"    : "gem"
+          , "name"  : "Gem"
+          , "image" : "/assets/stickers/gem.png"
+          , "x"     : 20
+          , "properties": {"treasure":true, "pickup":true}
+          , "y"     : 20
+          , "size"  : {"x":34, "y":34}
+          , "solid" : false                        
+        },
+        {
+            "id"    : "potion_of_awesome"
+          , "name"  : "Potion of Awesomeness"
+          , "image" : "/assets/stickers/green_potion.png"
+          , "x"     : 20
+          , "properties": {"item":true, "usable":true, "pickup":true}
+          , "y"     : 20
+          , "size"  : {"x":34, "y":34}
+          , "solid" : false         
+        }
+    ]
+}

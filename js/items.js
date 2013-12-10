@@ -1,6 +1,31 @@
 require("./scene.js");
 require("./events.js");
 
+var Chance = require("chance");
+var chance = new Chance();
+
+var items = null;
+
+
+//
+// Load our handy set of spawnable items
+//
+item_load_items = function(){
+  var file = global.game.data_directory + "/stuff/items.json";
+  require('fs').readFile(file, function(err, data){
+    if (err){
+        throw err;
+    }
+    items = JSON.parse(data).items;
+  });
+}
+
+item_spawn_random_item = function(scene){
+    var item = chance.pick(items);
+    item.id = chance.guid();
+    scene_spawn_sticker(scene, item);
+}
+
 item_pick_up = function(scene, actor, item){
     
     //

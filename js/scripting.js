@@ -113,14 +113,16 @@ script_evaluate_rule = function(rule, scene, actor){
             if ( properties_has_property(target.object, rule.property)){
                 if (rule.action === "PICKUP"){
                     var action = {};
+                    action.scene = scene;
                     actor.face = target.direction;
                     action.object = actor.id;
                     action.type = "ACTION";
                     return action;
                 } else {
                     var action = {};
+                    action.scene = scene;
                     actor.face = target.direction;
-                    action.object = actor.id;
+                    action.object = actor;
                     action.type = "FIGHT";
                     return action;                    
                 }

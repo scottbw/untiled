@@ -56,7 +56,15 @@
                                                "framerate": 4,
                                                "images": ["/assets/sprites/wilber_from_gimp_0.png"],
                                                "frames": {"width":56, "height":80},
-                                               "animations": {"stand" : [0,2], "walk" : [3,5] }     
+                                               "animations": {         
+                                                      "stand" : [0,2], 
+                                                      "walk" : [3,5],
+                                                      "jump" : [6,8],
+                                                  "hit" : [9,11, "stand"],
+                                                  "punch" : [12,14,"stand"],
+                                                  "kick" : [15,17, "stand"],
+                                                  "stunned": [24,26, "stand"]
+                                                }     
                                             }
                             , "script": {"type":"PATH", "value":"E50W50*", "speed":20}   
                             , "dialogue": true                     
@@ -75,7 +83,15 @@
                                                "framerate": 4,
                                                "images": ["/assets/sprites/gnu_from_gnu.png"],
                                                "frames": {"width":56, "height":80},
-                                               "animations": { "stand" : [0,2], "walk" : [3,5]}     
+                                               "animations": {
+                                                   "stand" : [0,2], 
+                                                  "walk" : [3,5],
+                                                  "jump" : [6,8],
+                                                  "hit" : [9,11, "stand"],
+                                                  "punch" : [12,14,"stand"],
+                                                  "kick" : [15,17, "stand"],
+                                                  "stunned": [24,26, "stand"]
+                                                }     
                                             }  
                             , "dialogue": true    
                             , "script":{"type":"FOLLOW", "speed":20}                      

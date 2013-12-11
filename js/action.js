@@ -71,6 +71,35 @@ action_execute = function(scene, actor, action){
   }
   
   //
+  // FIGHT
+  //
+  if (action.type === "FIGHT"){
+     var target = action_get_target(scene,actor);
+     //
+     // Create the "punch"
+     //
+     action.type = "FIGHT"
+     action.object = actor.id;
+     action.target = actor.id;
+     action.scene = scene;
+     action.status = "punch";
+     global.game.push_events.push(action); 
+          
+     //
+     // Create the "hit"
+     //
+     if (target != null){
+        var hit_action = {};
+        hit_action.type = "FIGHT";
+        hit_action.object = target.id;
+        hit_action.target = target.id;
+        hit_action.scene = scene;
+        hit_action.status = "hit";
+        global.game.push_events.push(hit_action); 
+     }
+  }
+  
+  //
   // DROP an item
   //
   if (action.type === "DROP"){

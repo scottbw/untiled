@@ -93,6 +93,12 @@ client.init = function(player){
                 client.render_message_event(data)
             }  
             
+            // FIGHT
+            if (data.type === "FIGHT"){
+                console.log(data);
+                client.render_fight_event(data);
+            }
+            
             // SAY (from, text)
             if (data.type === "SAY"){
                 client.render_say_event(data)
@@ -137,7 +143,6 @@ client.drop = function(id){
     var action = {};
     action.type="DROP";
     action.item=id;
-    console.log(action);
     client.send(action);
 }
 
@@ -145,6 +150,12 @@ client.send_movement_action = function(direction){
     var action = {};
     action.type="MOVE";
     action.value=direction;
+    client.send(action);
+}
+
+client.send_fight_action = function(){
+    var action = {};
+    action.type="FIGHT";
     client.send(action);
 }
 
@@ -254,7 +265,6 @@ client.update_inventory_event = function(event){
 // Scene updates
 //
 client.add_sticker_event = function(event){
-    console.log("added ",event.object);
     if (!client.get_sticker_from_object(event.object.object)){
         if (client.stickers.length == 0) return;
         client.stickers.push(event.object);
@@ -262,7 +272,6 @@ client.add_sticker_event = function(event){
     }
 }
 client.remove_sticker_event = function(event){
-    console.log("removed ",event.object);
     
     //
     // Locate the sticker in the client list
@@ -298,6 +307,20 @@ client.remove_sticker_event = function(event){
 client.render_move_event = function(event){
     var sticker = client.get_sticker_from_object(event.object);
     client.update_position(sticker, event.x, event.y);
+}
+
+client.render_fight_event = function(event){
+    var sticker = client.get_sticker_from_object(event.object);
+    if (event.status === "hit") sticker.sprite.gotoAndPlay("hit");
+    if (event.status === "punch") sticker.sprite.gotoAndPlay("punch");
+    if (event.status === "kick") sticker.sprite.gotoAndPlay("kick");
+    if (event.status === "stunned") sticker.sprite.gotoAndPlay("stunned");
+    if (sticker.face === "W"){
+        sticker.sprite.scaleX = -1;
+    }
+    if (sticker.face === "E"){
+        sticker.sprite.scaleX = 1;
+    }
 }
 
 client.get_sticker_from_object = function(object){
@@ -397,6 +420,15 @@ client.handle_input = function(){
         }
     }
     
+    else if( this.keyboard.pressed("X" )) {
+        if (client.actionbuffer === 0){
+            client.send_fight_action();
+            client.actionbuffer = 6;
+        } else {
+            client.actionbuffer--;
+        }
+    }
+    
     return {
         x: (x_dir * (player.speed * 0.015)).fixed(3),
         y: (y_dir * (player.speed * 0.015)).fixed(3)
@@ -414,7 +446,9 @@ client.update_local_position = function(pos){
     for (s in client.stickers){
         var sticker = client.stickers[s];
         if (sticker.object === player.id){
-            client.update_position(sticker, sticker.x + pos.x, sticker.y + pos.y);
+            if (pos.x != -0 || pos.y != 0){
+                client.update_position(sticker, sticker.x + pos.x, sticker.y + pos.y);
+            }
         }
     }
 }
@@ -457,9 +491,9 @@ client.update_position = function(sticker,x,y){
         //
         // Move to standing animation
         //
-        if (sticker.sprite){
-            if (sticker.sprite.currentAnimation != "stand") sticker.sprite.gotoAndPlay("stand");
-        }
+        //if (sticker.sprite){
+        //    if (sticker.sprite.currentAnimation != "stand") sticker.sprite.gotoAndPlay("stand");
+        //}
 
     }
 }

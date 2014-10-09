@@ -4,7 +4,7 @@
 
 require('./properties.js');
 
-var Chance = require("Chance");
+var Chance = require("chance");
 var chance = new Chance();
 
 script_process_script_action = function(scene, actor){

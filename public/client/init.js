@@ -1,16 +1,3 @@
-<html>
-<head>
-    
-<script src="vendor/jquery.min.js"></script>
-<script src="vendor/keyboard.js"></script>
-<script src="/socket.io/socket.io.js"></script>
-<script src="vendor/easeljs-0.7.0.min.js"></script>
-<script src="client.js"></script>
-<script src="bubble.js"></script>
-<link href="client.css" rel="stylesheet">
-
-<script>
-
 var stage, player;
 
 function init(){
@@ -45,27 +32,3 @@ function init(){
     client.init(player);
 
 }
-
-</script>
-</head>
-
-<body onload="init()">
-
-<h1 id="title"></h1>
-
-<canvas id="canvas_background"></canvas>
-
-
-<canvas id="canvas" width="1200px" height="600px" style="position:absolute; top:0px; left:0px; z-index:1"></canvas>
-
-<div id="messages">
-<h3>Messages</h3>
-</div>
-
-<div id="options">
-</div>
-
-<div id="inventory">
-</div>
-
-</body>

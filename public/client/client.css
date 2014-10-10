@@ -42,3 +42,43 @@ p.speech:after
 	border: 15px solid;
 	border-color: #fff transparent transparent #fff;
 }
+
+#title
+{
+	position: absolute;
+	top:0px;
+	right: 40px;
+	z-index:2;
+}
+
+#canvas_background
+{
+	position:absolute;
+	width:1200px;
+	height:600px;
+	top:0px;
+	left:0px;
+	z-index:0
+}
+
+#messages
+{
+	position:absolute;
+	top:100px;
+	left:1240px
+}
+
+#options
+{
+	position:absolute;
+	top:700px;
+	left:20px;
+}
+
+#inventory
+{
+	position:absolute;
+	top:20px;
+	left:20px;
+	z-index: 2;
+}

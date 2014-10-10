@@ -2,6 +2,7 @@
 
 body{
 font-family: 'Loved by the King', cursive;
+overflow: hidden;
 }
 
 p.speech

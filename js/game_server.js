@@ -55,7 +55,7 @@ function Server(){
  * Starts the server
  */
 Server.prototype.start = function(clear){
-    var database_options = {"host":"127.0.0.1", "port":"6379", "clear":clear}
+    var database_options = {"host":"0.0.0.0", "port":"6379", "clear":clear}
     this.attach(this.server, database_options);
 }
 

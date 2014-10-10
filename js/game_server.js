@@ -11,7 +11,7 @@ function Server(){
     //
     // Express Application - used for serving assets and the client
     //
-    HOST = "" //comment out if you want to accept connections from any address
+    HOST = "" //comment out if you want to accept connections from only localhost
     //HOST = "localhost"; // uncomment if you only want to accept connections from localhost
     PORT = 3000;
     var http = require('http');
@@ -47,14 +47,7 @@ function Server(){
     //
     // Start listening
     //
-    if (HOST=="localhost")
-    {
       this.server.listen(PORT,HOST);
-    }
-    else
-    {
-      this.server.listen(PORT);
-    }
 
 }
 

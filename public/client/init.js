@@ -14,7 +14,13 @@ function init(){
        frames: {width:56, height:80},
        animations: {
           "stand" : [0,2], 
-          "walk" : [3,5] 
+          "walk" : [3,5], 
+          "jump" : [6,8],
+          "hit" : [9,11, "stand"],
+          "punch" : [12,14,"stand"],
+          "kick" : [15,17, "stand"],
+          "stunned": [24,26, "stand"]
+
        }     
     }
     script = {};

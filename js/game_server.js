@@ -11,7 +11,8 @@ function Server(){
     //
     // Express Application - used for serving assets and the client
     //
-    HOST = "localhost"; // localhost
+    HOST = "" //comment out if you want to accept connections from only localhost
+    //HOST = "localhost"; // uncomment if you only want to accept connections from localhost
     PORT = 3000;
     var http = require('http');
     var express = require('express');
@@ -46,8 +47,7 @@ function Server(){
     //
     // Start listening
     //
-    this.server.listen(PORT, HOST);
-    
+      this.server.listen(PORT,HOST);
 
 }
 
@@ -55,7 +55,7 @@ function Server(){
  * Starts the server
  */
 Server.prototype.start = function(clear){
-    var database_options = {"host":"127.0.0.1", "port":"6379", "clear":clear}
+    var database_options = {"host":"0.0.0.0", "port":"6379", "clear":clear}
     this.attach(this.server, database_options);
 }
 

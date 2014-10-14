@@ -100,7 +100,7 @@ event_run = function(scene, event, source, target){
     //
     if (event.type === "TRANSITION"){
         var original_scene = source.scene;
-        if (!original_scene.id) original_scene = global.game.scenes[original_scene];
+        if (! original_scene || !original_scene.id) original_scene = global.game.scenes[original_scene];
         var new_scene = event.value;
         if (!new_scene.id) new_scene = global.game.scenes[new_scene];
         

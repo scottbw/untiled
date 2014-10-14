@@ -323,7 +323,7 @@ process.on('uncaughtException', function (err) {
     process.exit(code=1);
   } else {
     console.log("aargh!");
-    console.log(err);
+    console.log(err.stack);
     process.exit(code=1);
   } 
 });
